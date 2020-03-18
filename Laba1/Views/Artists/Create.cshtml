@@ -1,0 +1,96 @@
+﻿@model Laba1.Artists
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Add an artist to the group @ViewBag.GroupName</h1>
+
+<h4>Artists</h4>
+<hr />
+@{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+
+    listItems.Add(new SelectListItem
+    {
+        Text = "Female",
+        Value = "0",
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Male",
+        Value = "1",
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Agender",
+        Value = "2"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Bigender",
+        Value = "3"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Transgender",
+        Value = "4",
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Other",
+        Value = "5"
+    });
+}
+@{
+    ViewData["AGender"] = new SelectList(listItems, "Text");
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AName" class="control-label"></label>
+                <input asp-for="AName" class="form-control" />
+                <span asp-validation-for="AName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AGender" class="control-label"></label>
+                <select asp-for="AGender" class="form-control" asp-items=listItems></select>
+                <span asp-validation-for="AGender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ABirth" class="control-label"></label>
+                <input asp-for="ABirth" class="form-control" />
+                <span asp-validation-for="ABirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="APhone" class="control-label"></label>
+                <input asp-for="APhone" class="form-control" />
+                <span asp-validation-for="APhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GroupId" class="control-label"></label>
+                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
+            </div>
+
+            <input type="hidden" value="@ViewBag.GroupId" name="GroupId" />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

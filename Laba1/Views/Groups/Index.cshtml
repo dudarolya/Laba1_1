@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Laba1.Groups>
+
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<h1>Groups</h1>
+
+<p>
+    <a asp-action="Create">Add New Group</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GrName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GrCreation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GrName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GrCreation)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GrId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.GrId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.GrId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    <div id="chart1" />
+</div>
+
+<div class="container">
+    <div id="chart2" />
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            $.get('/api/Charts/JsonData', function (jsonData) {
+                data = google.visualization.arrayToDataTable(jsonData, false);
+                var option = {
+                    title: "Groups and artists ratio",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            $.get('/api/Charts/JsonData', function (jsonData) {
+                data = google.visualization.arrayToDataTable(jsonData, false);
+                var option = {
+                    title: "Groups and artists ratio",
+                    width: 500,
+                    height: 400
+                };
+                chart = new google.visualization.BarChart(document.getElementById('chart2'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}

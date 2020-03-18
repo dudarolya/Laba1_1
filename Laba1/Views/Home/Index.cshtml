@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to our site!</h1>
+    <p>Here you can  enjoy the world of music!</p>
+    <p />
+    <p>Add artists, groups, look through their songs and albums.</p>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Exit" />
+    </form>
+}
+
+else
+{
+    <a asp-controller="Account" asp-action="Login">Sign in</a>
+    <br />
+    <a />
+    <a asp-controller="Account" asp-action="Register">Registration</a>
+}
