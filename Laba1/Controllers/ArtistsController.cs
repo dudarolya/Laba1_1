@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Laba1;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Laba1.Controllers
@@ -30,7 +29,6 @@ namespace Laba1.Controllers
             ViewData["Genders"] = new SelectList(_context.Artists, "AId", "Genders");
             var ArtistsByGroup = _context.Artists.Where(ar => ar.GroupId == id).Include(ar => ar.Group).Include(ar => ar.Country);
             return View(await ArtistsByGroup.ToListAsync());
-
         }
 
         // GET: Artists/Details/5

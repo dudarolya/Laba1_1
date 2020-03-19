@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Laba1.Controllers
 {
-    [Authorize(Roles = "user")]
     public class RolesController : Controller
     {
         //private readonly IdentityContext _context;
@@ -83,6 +82,31 @@ namespace Laba1.Controllers
                 return RedirectToAction("UserList");
             }
             return NotFound();
+        }
+
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            return View(role);
+        }
+
+        // POST: Artists/Delete/5
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            await _roleManager.DeleteAsync(role);
+            return RedirectToAction("Index", "Roles");
         }
     }
 }

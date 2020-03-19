@@ -42,12 +42,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Genre.GenName)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.SId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.SId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.SId">Delete</a>
-            </td>
-        </tr>
+            @if (User.IsInRole("admin") || User.IsInRole("moder"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.SId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.SId">Delete</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.SId">Details</a>
+                </td>
+            }
+            </tr>
 }
     </tbody>
 </table>

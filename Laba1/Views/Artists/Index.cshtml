@@ -36,31 +36,40 @@
     </thead>
     <tbody>
         @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AGender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ABirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.APhone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country.CName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Group.GrName)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ABirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.APhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country.CName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Group.GrName)
+            </td>
+            @if (User.IsInRole("admin") || User.IsInRole("moder"))
+            {
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.AId">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.AId">Details </a>
                     <a asp-action="Delete" asp-route-id="@item.AId">Delete </a>
                 </td>
-            </tr>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.AId">Details </a>
+                </td>
+            }
+        </tr>
         }
     </tbody>
 </table>

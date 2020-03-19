@@ -36,12 +36,21 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CCapital)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CId">Delete</a>
-            </td>
-        </tr>
+            @if (User.IsInRole("admin") || User.IsInRole("moder"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.CId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.CId">Delete</a>
+                </td>
+            }
+            else 
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.CId">Details</a>
+                </td>
+            }
+            </tr>
 }
     </tbody>
 </table>

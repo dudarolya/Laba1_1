@@ -24,19 +24,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GrName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GrCreation)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrCreation)
+            </td>
+            @if (User.IsInRole("admin") || User.IsInRole("moder"))
+            {
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.GrId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.GrId">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.GrId">Delete</a>
                 </td>
-            </tr>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.GrId">Details</a>
+                </td>
+            }
+        </tr>
         }
     </tbody>
 </table>

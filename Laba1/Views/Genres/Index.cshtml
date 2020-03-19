@@ -24,11 +24,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.GenName)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.GenId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.GenId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.GenId">Delete</a>
-            </td>
+            @if (User.IsInRole("admin") || User.IsInRole("moder"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.GenId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.GenId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.GenId">Delete</a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.GenId">Details</a>
+                </td>
+            }
         </tr>
 }
     </tbody>

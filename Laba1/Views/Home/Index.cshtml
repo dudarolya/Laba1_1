@@ -6,23 +6,22 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to our site!</h1>
-    <p>Here you can  enjoy the world of music!</p>
+    <h3>Here you can  enjoy the world of music!</h3>
     <p />
-    <p>Add artists, groups, look through their songs and albums.</p>
+    <p>Look through artists, groups, their songs and albums.</p>
 </div>
 
-@if (User.Identity.IsAuthenticated)
+@if (!User.Identity.IsAuthenticated)
 {
-    <p>@User.Identity.Name</p>
-    <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Exit" />
-    </form>
-}
-
-else
-{
+    <h3><b>Log in</b> to get access to our huge musical database!</h3>
     <a asp-controller="Account" asp-action="Login">Sign in</a>
     <br />
     <a />
-    <a asp-controller="Account" asp-action="Register">Registration</a>
+    <a asp-controller="Account" asp-action="Register">Registration</a> <br /><br />
 }
+
+<iframe width="560" height="315"
+        src="https://www.youtube.com/embed/qB8j1LnkXRM?start=7"
+        frameborder="0" allow="accelerometer; autoplay; 
+        encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe> 
