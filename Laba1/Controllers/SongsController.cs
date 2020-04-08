@@ -19,7 +19,7 @@ namespace Laba1.Controllers
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index(int? id, string? name)
+        public async Task<IActionResult> Index(int? id, string? name, string errormsg)
         {
             if (id == null)
                 return View(await _context.Songs.Include(s => s.Album).Include(s => s.Genre).ToListAsync());

@@ -24,31 +24,50 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GrName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GrCreation)
-            </td>
-            @if (User.IsInRole("admin") || User.IsInRole("moder"))
-            {
+            <tr>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.GrId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.GrId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.GrId">Delete</a>
+                    @Html.DisplayFor(modelItem => item.GrName)
                 </td>
-            }
-            else
-            {
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.GrId">Details</a>
+                    @Html.DisplayFor(modelItem => item.GrCreation)
                 </td>
-            }
-        </tr>
+                @if (User.IsInRole("admin") || User.IsInRole("moder"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.GrId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.GrId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.GrId">Delete</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.GrId">Details</a>
+                    </td>
+                }
+            </tr>
         }
     </tbody>
 </table>
+
+<div>
+    <h3>Choose an Excel-file for downloading:</h3>
+    @using (Html.BeginForm("Import", "Groups", FormMethod.Post, new {enctype="multipart/form-data", id ="frm-excel"}))
+     {
+        <div>
+            Download an Excel-file:
+            <input type="file" name="fileExcel" id="fileExcel" />
+            <div>
+                <input type = "submit" value="Download" />
+            </div>
+        </div>
+     }
+</div>
+
+<div>
+    <h3>Downloading info to the file</h3>
+    <a asp-action="Export">Download</a>
+</div>
 
 <div class="container">
     <div id="chart1" />
