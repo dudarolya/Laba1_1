@@ -26,8 +26,9 @@ namespace Laba1.Controllers
         {
             return View(await _context.Groups.ToListAsync());
         }
-        public IActionResult ErrorOccured()
+        public IActionResult ErrorOccured(string errormsg)
         {
+            ViewBag.Error = errormsg;
             return View();
         }
 
@@ -196,8 +197,7 @@ namespace Laba1.Controllers
                                     _context.Groups.Add(newgroup);
                                 }
 
-                                //перегляд усіх рядків                    
-                                foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
+                                foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
                                 {
                                     try
                                     {
@@ -216,27 +216,31 @@ namespace Laba1.Controllers
                                             _context.Add(newcountry);
                                         }
 
-                                        Artists artist = new Artists();
-                                        var art = _context.Artists.Where(ar => ar.AName == row.Cell(1).Value.ToString()).ToList();
+                                        Artists newartist = new Artists();
+                                        var art = _context.Artists.Where(ar => ar.AName == row.Cell(1).Value.ToString() 
+                                        && ar.Country.CName == newcountry.CName
+                                        && ar.ABirth == (DateTime)row.Cell(3).Value
+                                        && ar.APhone == row.Cell(4).Value.ToString()).ToList();
 
                                         if (art.Count > 0)
-                                        {
-                                            artist = art[0];
+                                        { 
+                                            newartist = art[0];
                                         }
                                         else
                                         {
-                                            artist.AName = row.Cell(1).Value.ToString();
-                                            artist.ABirth = (DateTime)row.Cell(3).Value;
-                                            artist.APhone = row.Cell(4).Value.ToString();
-                                            artist.Group = newgroup;
-                                            artist.Country = newcountry;
-                                            artist.AGender = (Artists.Genders)((double)row.Cell(2).Value);
-                                            _context.Add(artist);
+                                            newartist.AName = row.Cell(1).Value.ToString();
+                                            newartist.ABirth = (DateTime)row.Cell(3).Value;
+                                            newartist.APhone = row.Cell(4).Value.ToString();
+                                            newartist.Group = newgroup;
+                                            newartist.Country = newcountry;
+                                            newartist.AGender = (Artists.Genders)((double)row.Cell(2).Value);
+                                            _context.Add(newartist);
                                         }
                                     }
-                                    catch
+                                    catch(Exception ex)
                                     {
-                                        return RedirectToAction("ErrorOccured", "Groups");
+                                        string exmsg = ex.Message;
+                                        return RedirectToAction("ErrorOccured", "Groups", new { errormsg = exmsg});
                                     }
                                 }
                             }
@@ -253,8 +257,6 @@ namespace Laba1.Controllers
             using (XLWorkbook workbook = new XLWorkbook(XLEventTracking.Disabled))
             {
                 var groups = _context.Groups.Include("Artists").ToList();
-                //тут, для прикладу ми пишемо усі книжки з БД, в своїх проектах ТАК НЕ РОБИТИ
-                //(писати лише вибрані)
                 foreach (var g in groups)
                 {
                     var worksheet = workbook.Worksheets.Add(g.GrName);

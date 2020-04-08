@@ -70,10 +70,7 @@ namespace Laba1.Controllers
             if (ModelState.IsValid)
             {
                 if (   _context.Artists.Where(a => a.AName == artist.AName).Count() != 0
-                    && _context.Artists.Where(a => a.AGender == artist.AGender).Count() != 0
                     && _context.Artists.Where(a => a.ABirth == artist.ABirth).Count() != 0
-                    && _context.Artists.Where(a => a.APhone == artist.APhone).Count() != 0
-                    && _context.Artists.Where(a => a.GroupId == artist.GroupId).Count() != 0
                     && _context.Artists.Where(a => a.CountryId == artist.CountryId).Count() != 0)
                 {
                     return RedirectToAction(nameof(Index));
