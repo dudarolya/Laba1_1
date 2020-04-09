@@ -33,11 +33,15 @@ namespace Laba1.Controllers
         {
             if (ModelState.IsValid)
             {
-                identityRole.NormalizedName = identityRole.Name.ToUpper();
-                await _roleManager.CreateAsync(identityRole);
-                return RedirectToAction("Index", "Roles", new { id = identityRole.Id, name = identityRole.Name});
+                var role = await _roleManager.FindByNameAsync(identityRole.Name.ToLower());
+                if (role == null)
+                {
+                    identityRole.NormalizedName = identityRole.Name.ToUpper();
+                    await _roleManager.CreateAsync(identityRole);
+                    return RedirectToAction("Index", "Roles", new { id = identityRole.Id, name = identityRole.Name });
+                }
             }
-                return View();
+            return RedirectToAction("Index", "Roles");
         }
         public IActionResult UserList() => View(_userManager.Users.ToList());
 

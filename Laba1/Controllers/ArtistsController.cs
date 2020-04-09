@@ -79,7 +79,8 @@ namespace Laba1.Controllers
                 {
                     _context.Add(artist);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Artists", new { id = groupId, name = _context.Groups.Where(gr => gr.GrId == groupId).FirstOrDefault().GrName });
+                    return RedirectToAction("Index", "Artists", new { id = groupId, name = _context.Groups
+                        .Where(gr => gr.GrId == groupId).FirstOrDefault().GrName });
                 }
             }
 

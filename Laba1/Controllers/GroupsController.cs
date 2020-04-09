@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -201,6 +201,11 @@ namespace Laba1.Controllers
                                 {
                                     try
                                     {
+                                        if (row.Cell(8).Value.ToString() != "")
+                                        {
+                                            newgroup.GrCreation = (DateTime)row.Cell(8).Value;
+                                        }
+
                                         Countries newcountry;
                                         var c = _context.Countries.Where(cntr => cntr.CName == row.Cell(5).Value.ToString()).ToList();
                                         if (c.Count > 0)
@@ -267,8 +272,12 @@ namespace Laba1.Controllers
                     worksheet.Cell("E1").Value = "Country";
                     worksheet.Cell("F1").Value = "Language";
                     worksheet.Cell("G1").Value = "Capital";
+                    worksheet.Cell("H1").Value = "Date of group creation";
+                    worksheet.Cell(2, 8).Value = g.GrCreation;
 
                     worksheet.Row(1).Style.Font.Bold = true;
+                    worksheet.Row(1).CellsUsed().Style.Fill.SetBackgroundColor(XLColor.EtonBlue);
+
                     var artists = g.Artists.ToList();
 
                     for (int i = 0; i < artists.Count; i++)
